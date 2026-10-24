@@ -21,14 +21,37 @@ body {
   overflow-wrap: break-word;
 }
 
+/* 사진을 왼쪽에 두고, 제목과 소개 글을 오른쪽에 나란히 놓는다 */
+header {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  column-gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+header img {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+}
+
 header h2 {
-  margin: 8px 0 4px;
-  font-size: 2.25rem;
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  font-size: 2rem;
   color: var(--accent);
 }
 
 header p {
-  margin: 0 0 24px;
+  grid-column: 2;
+  grid-row: 2;
+  margin: 4px 0 0;
 }
 
 main section {
