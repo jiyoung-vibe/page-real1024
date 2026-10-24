@@ -1,0 +1,54 @@
+/* 명세 ② 예시: 청록과 흰색 · 제목은 크게 · 휴대폰에서 누르기 쉬운 버튼 · 줄 사이 넉넉하게 */
+body {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background: #ffffff;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+h1 { font-size: 28px; color: #0f766e; }
+
+#item {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  border: 1px solid #99c9c4;
+  border-radius: 8px;
+}
+
+button { padding: 12px 20px; border-radius: 8px; }
+
+#add {
+  width: 100%;
+  font-size: 16px;
+  color: #ffffff;
+  background: #0f766e;
+  border: none;
+}
+
+#list { list-style: none; padding: 0; }
+
+#list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+#list li button {
+  margin-left: auto;
+  padding: 8px 12px;
+  color: #0f766e;
+  background: #ffffff;
+  border: 1px solid #0f766e;
+}
+
+#list input[type="checkbox"] { width: 22px; height: 22px; }
+
+li.done { text-decoration: line-through; color: #9ca3af; }

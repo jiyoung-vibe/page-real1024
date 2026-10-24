@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>나의 포트폴리오</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>(내 이름)</h1>
+    <p class="intro">(나를 소개하는 한 줄)</p>
+  </header>
+
+  <section class="card">
+    <h2>내가 만든 것</h2>
+    <a class="made" href="#">
+      <strong>To-Do</strong>
+      <span>(어제 만든 To-Do 주소)</span>
+    </a>
+  </section>
+
+  <section class="card">
+    <h2>방명록</h2>
+    <input id="nickname" placeholder="별명">
+    <textarea id="message" placeholder="한마디"></textarea>
+    <button id="leave" type="button">남기기</button>
+    <ul id="guestbook-list">
+      <li class="empty">아직 글이 없습니다</li>
+    </ul>
+  </section>
+</body>
+</html>
