@@ -93,3 +93,58 @@ async function saveEntry() {
 submitButton.addEventListener('click', saveEntry);
 
 loadGuestbook().catch((error) => showStatus(error.message));
+
+// [임시] 공개 키로 글 고치기 규칙 확인 버튼 (확인 후 지울 것)
+// 별명이 '테스트'인 글 하나만 고치고, 바뀌었으면 원래 글로 되돌린다
+const TEST_NICKNAME = '테스트';
+const testButton = document.createElement('button');
+testButton.type = 'button';
+testButton.textContent = '[임시] 공개 키로 고치기 테스트';
+const testStatus = document.createElement('p');
+list.after(testButton, testStatus);
+
+async function patchMessage(id, message) {
+  const url = `${SUPABASE_URL}/rest/v1/guestbook?id=eq.${id}&nickname=eq.${encodeURIComponent(TEST_NICKNAME)}`;
+  const response = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json',
+      Prefer: 'return=representation',
+    },
+    body: JSON.stringify({ message }),
+  });
+  const body = response.ok ? await response.json() : [];
+  return { status: response.status, count: body.length };
+}
+
+async function runEditTest() {
+  testButton.disabled = true;
+  testStatus.textContent = '확인 중...';
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/guestbook?select=id,message&nickname=eq.${encodeURIComponent(TEST_NICKNAME)}&order=created_at.desc&limit=1`;
+    const found = await fetch(url, { headers });
+    if (!found.ok) {
+      throw new Error(`테스트 글을 찾지 못했습니다 (${found.status})`);
+    }
+    const [row] = await found.json();
+    if (!row) {
+      testStatus.textContent = "별명 '테스트'로 먼저 한 줄 남겨 주세요.";
+      return;
+    }
+
+    const changed = await patchMessage(row.id, `규칙 테스트 ${new Date().toLocaleTimeString('ko-KR')}`);
+    let result = `고치기 요청: 응답 ${changed.status}, 바뀐 줄 ${changed.count}개`;
+    if (changed.count > 0) {
+      const restored = await patchMessage(row.id, row.message);
+      result += ` / 원래 글로 되돌리기: 응답 ${restored.status}, 바뀐 줄 ${restored.count}개`;
+    }
+    testStatus.textContent = result;
+  } catch (error) {
+    testStatus.textContent = error.message;
+  } finally {
+    testButton.disabled = false;
+  }
+}
+
+testButton.addEventListener('click', runEditTest);
