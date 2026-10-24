@@ -16,6 +16,20 @@ const headers = {
   Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
 };
 
+// 한마디는 100자까지만, 남은 글자 수를 입력칸 아래에 보여 준다
+const MESSAGE_MAX_LENGTH = 100;
+messageInput.maxLength = MESSAGE_MAX_LENGTH;
+const counterText = document.createElement('p');
+messageInput.after(counterText);
+
+function showCounter() {
+  const remaining = MESSAGE_MAX_LENGTH - messageInput.value.length;
+  counterText.textContent = `남은 글자 수: ${remaining}`;
+}
+
+messageInput.addEventListener('input', showCounter);
+showCounter();
+
 function showStatus(text) {
   statusText.textContent = text;
 }
@@ -66,6 +80,7 @@ async function saveEntry() {
 
     nicknameInput.value = '';
     messageInput.value = '';
+    showCounter();
     showStatus('');
     await loadGuestbook();
   } catch (error) {
